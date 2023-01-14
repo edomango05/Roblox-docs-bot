@@ -91,7 +91,7 @@ export = <CommandInterface<ChatInputApplicationCommandData>>{
 
             let sample:string = ""
             if ( path !== "enum" && path !== "class"&& path!=="article")  { 
-                const other = await client.http.get(`https://create.roblox.com/docs/_next/data/IVzbvMvdFMPFKtnCsbR2l/reference/engine/classes/${info.ContentIdentifier}.json`).catch(console.error)
+                const other = await client.http.get(`https://create.roblox.com/docs/_next/data/ekkhqa38ED3fiyUEYxPLN/reference/engine/classes/${info.ContentIdentifier}.json`).catch(console.error)
                 
                 if (other) {
                     const found:any = other.body.pageProps.data.apiReference[plural(path)].find((v:any)=> v.name === route)
