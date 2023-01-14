@@ -33,6 +33,7 @@ export = <EventInterface>{
         try {
             await command(client, interaction, ...args.split(","));
         } catch (error) {
+            console.log(error)
             await interaction.reply({ content: 'Errore durante l\'esecuzione del comando!', ephemeral: true });
         }
     },

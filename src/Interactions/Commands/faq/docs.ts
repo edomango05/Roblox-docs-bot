@@ -20,8 +20,8 @@ const CategoryToEmojie:any = {
     class : "<:class:1026931075223658570>", 
     method : "<:method:1026932872914931873>",
     enum: "<:interface:1026931995542032444>",
-    property: "<:property:1026932401705848953> ",
-    event: "<:event:1026937063112708146> "
+    property: "<:property:1026932401705848953>",
+    event: "<:event:1026937063112708146>"
 }
 
 export = <CommandInterface<ChatInputApplicationCommandData>>{
@@ -91,12 +91,10 @@ export = <CommandInterface<ChatInputApplicationCommandData>>{
 
             let sample:string = ""
             if ( path !== "enum" && path !== "class"&& path!=="article")  { 
-                const other = await client.http.get(`https://create.roblox.com/docs/_next/data/jK4n7jMNoksUI-Rw2ZH2Z/reference/engine/classes/${info.ContentIdentifier}.json`)
+                const other = await client.http.get(`https://create.roblox.com/docs/_next/data/IVzbvMvdFMPFKtnCsbR2l/reference/engine/classes/${info.ContentIdentifier}.json`).catch(console.error)
                 
                 if (other) {
-                    console.log(other.body.pageProps.data.apiReference[plural(path)])
                     const found:any = other.body.pageProps.data.apiReference[plural(path)].find((v:any)=> v.name === route)
-                    console.log(found)
                     sample = found && found.codeSamples && found.codeSamples[0] ?  found.codeSamples[0].codeSample :  ""
                 }
             }

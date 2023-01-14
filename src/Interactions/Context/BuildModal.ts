@@ -8,8 +8,7 @@ export = <InteractionInterface<ModalSubmitInteraction>>{
         const title = interaction.fields.getTextInputValue('title_input');
         const description = interaction.fields.getTextInputValue('description_input');
         client.info(interaction, {
-            title,
-            description,
+            description:`:small_blue_diamond: **${title}**\n ${description}`,
             
         }, {
             files: url ? [{
