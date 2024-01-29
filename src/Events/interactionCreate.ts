@@ -2,9 +2,10 @@ import { Interaction } from "discord.js";
 import { EventInterface } from "../Client/handlers/eventHandler";
 
 
-export = <EventInterface>{
+export = <EventInterface<"interactionCreate">>{
     name: "interactionCreate",
     async run(client, interaction: Interaction) {
+        
         if (interaction.isChatInputCommand() || interaction.isMessageContextMenuCommand() || interaction.isUserContextMenuCommand()) {
             const command = client.commandManager.commands.get(interaction.commandName);
             if (!command) return;
@@ -12,7 +13,9 @@ export = <EventInterface>{
                 await command.run(client, interaction);
             } catch (error) {
                 console.error(error);
-                await interaction.reply({ content: 'Errore durante l\'esecuzione del comando!', ephemeral: true });
+                if (error instanceof Error) {
+                    await client.error(interaction, error);
+                }
             }
             return
         }
@@ -23,7 +26,7 @@ export = <EventInterface>{
             try {
                 await ctx(client, interaction);
             } catch (error) {
-               
+                console.log(error);
             }
             return
         }
@@ -31,10 +34,12 @@ export = <EventInterface>{
         const command = client.contextManager.interactions.get(id);
         if (!command) return;
         try {
-            await command(client, interaction, ...args.split(","));
+            await command(client, interaction, ...(args || "").split(",") );
         } catch (error) {
+            if (error instanceof Error) {
+                await client.error(interaction, error);
+            }
             console.log(error)
-            await interaction.reply({ content: 'Errore durante l\'esecuzione del comando!', ephemeral: true });
         }
     },
 }

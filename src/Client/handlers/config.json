@@ -1,0 +1,14 @@
+{
+    "WEBHOOK_URL_TRANSCRIPTS": {
+        "type": 20,
+        "data": "1149082989465182248",
+        "metadata": {
+            "maxValues": 1
+        }
+    },
+    "TAG_ROLES_TICKETS": {
+        "type": 7,
+        "metadata": {},
+        "data": []
+    }
+}

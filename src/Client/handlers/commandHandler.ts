@@ -1,4 +1,4 @@
-import { ApplicationCommandData, ChatInputApplicationCommandData, ChatInputCommandInteraction, ClientEvents, Collection, CommandInteraction, CommandInteractionResolvedData, MessageInteraction, UserApplicationCommandData, UserContextMenuCommandInteraction } from "discord.js";
+import { ApplicationCommandData, ApplicationCommandDataResolvable, ChatInputApplicationCommandData, ChatInputCommandInteraction, ClientEvents, Collection, CommandInteraction, CommandInteractionResolvedData, Guild, MessageInteraction, UserApplicationCommandData, UserContextMenuCommandInteraction } from "discord.js";
 import { ExtendedClient } from "../Client";
 import glob from "glob"
 import { promisify } from "util";
@@ -28,11 +28,10 @@ export class CommandHandler{
             this.commands.set(file.data.name, file)
         });
     }
-    deploy(client:ExtendedClient){
-        client.guild.commands.set(this.commands.map(comm=>{
-            return {
-                ...comm.data
-            }
-        }))
+    async deploy(guild:Guild, commands:ApplicationCommandDataResolvable[]){
+        guild.commands.set([
+            this.commands.get("deploy")!.data,
+            ...commands
+        ])
     }
 }

@@ -1,5 +1,5 @@
 import {config} from "dotenv";
 import { ExtendedClient } from "./Client/Client";
-config(); 
-console.log("Hi there")
+config();
 const client = new ExtendedClient()
+
