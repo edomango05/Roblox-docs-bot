@@ -1,1 +1,3 @@
-# Useless bot
+# Search into roblox docs!
+
+Some examples:
