@@ -5,14 +5,18 @@ import { ClientToServerEvents, EventHandler, ServerToClientEvents } from "./hand
 import { ConfigurationHandler } from "./handlers/configurationHandler"
 
 import { ErrorEmbed, Info, Warn } from "./UI/embeds"
-
+// making extented client to automate some functions
 export class ExtendedClient extends Client {
+    // caching data to avoid excessive amount of requests
     static cache: Collection<string,Webhook> = new Collection()
+    // sets up an utility I made that handles configurations in json format
     configurationManager:ConfigurationHandler = new ConfigurationHandler()
+    // handlers for events and interactions (with a specific file format and typing)
     eventManager: EventHandler = new EventHandler(this)
     contextManager: ContextHandler = new ContextHandler()
     commandManager: CommandHandler = new CommandHandler()
     constructor() {
+        //calling discord js Client constructor
         super({
             failIfNotExists: false,
             presence: {
@@ -25,8 +29,10 @@ export class ExtendedClient extends Client {
             },
             intents: [GatewayIntentBits.Guilds]
         })
+        // making the bot login in the gateway
         this.login(process.env.DISCORD_TOKEN).catch(console.error);
     }
+    // next methods implement an automated way for repling with error / warning / info embeds ( templates I made for uniformity )
     info(ctx:RepliableInteraction,data:EmbedData, other?:InteractionReplyOptions){
         return ctx.reply({
             embeds:[
@@ -59,7 +65,7 @@ export class ExtendedClient extends Client {
             ...other
         })
     }
-
+    // method for a query (sends the best result in a list of strings)
     bestResults(input:string, all:string[]){
         const first = all.filter(v => v.toLowerCase().includes(input))
         return first.length >= 25 ? first.slice(0, 24) : first
@@ -74,6 +80,7 @@ export class ExtendedClient extends Client {
         })
     }
     async sendWebhook(url:string,data:EmbedData, other?:MessageCreateOptions){
+        //fetch and send data to webhook
         const splittedstring = url.split("/")
         const webhook = await this.fetchWebhook(splittedstring[splittedstring.length - 2],splittedstring[splittedstring.length - 1])
         if (!webhook) return;
